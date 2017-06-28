@@ -1,17 +1,23 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
+import {connectToStores, provideContext} from 'fluxible-addons-react';
 import {handleHistory} from 'fluxible-router';
+import {compose} from 'recompose';
 
-let ErrorPage;
-let NotFoundPage = ErrorPage = ({err}) => (
-  <div>
-    Error
-    {err}
-  </div>
-);
+import NotFoundPage from './containers/NotFound';
+import ErrorPage from './containers/NotFound';
+
 
 class Application extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    const newProps = this.props;
+    if (newProps.pageTitle === prevProps.pageTitle) {
+      return;
+    }
+    window.document.title = newProps.pageTitle;
+  }
+
   render() {
     const { currentRoute, currentNavigateError, isNavigateComplete } = this.props;
     let content;
@@ -47,18 +53,28 @@ Application.contextTypes = {
   getStore: PropTypes.func.isRequired,
 };
 
-Application.propTypes = {
-  // props coming from fluxible-router's handleHistory
-  isNavigateComplete: PropTypes.bool,
-  currentRoute: PropTypes.object,
-  currentNavigateError: PropTypes.shape({
-    statusCode: PropTypes.number.isRequired,
-    message: PropTypes.string.isRequired,
-  }),
+if (process.env.NODE_ENV !== 'production') {
+  Application.propTypes = {
+    // props coming from fluxible-router's handleHistory
+    isNavigateComplete: PropTypes.bool,
+    currentRoute: PropTypes.object,
+    currentNavigateError: PropTypes.shape({
+      statusCode: PropTypes.number.isRequired,
+      message: PropTypes.string.isRequired,
+    }),
 
-  // prop coming from ApplicationStore
-  pageTitle: PropTypes.string,
-};
+    // prop coming from ApplicationStore
+    pageTitle: PropTypes.string,
+  };
+}
 
 
-export default handleHistory(Application);
+const enhance = compose(
+  handleHistory,
+  provideContext,
+  connectToStores(['ApplicationStore'], (context) => ({
+    pageTitle: context.getStore('ApplicationStore').getPageTitle()
+  }))
+);
+
+export default enhance(Application);

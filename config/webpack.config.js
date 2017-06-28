@@ -1,5 +1,7 @@
-var config = require('../src/config');
+var webpack = require('webpack');
 var path = require('path');
+
+var config = require('../src/config');
 
 var webpackConfig = {
   resolve: {
@@ -8,7 +10,7 @@ var webpackConfig = {
   },
   entry: [
     'webpack-dev-server/client?http://localhost:' + config.port,
-    'webpack/hot/only-dev-server',
+    // 'webpack/hot/only-dev-server',
     './src/client.js'
   ],
   output: {
@@ -27,7 +29,16 @@ var webpackConfig = {
         ]
       },
     ]
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify(process.env.NODE_ENV),
+        BROWSER: JSON.stringify(true)
+      }
+    }),
+  ],
+  devtool: 'cheap-module-eval-source-map'
 };
 
 

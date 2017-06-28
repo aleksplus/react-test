@@ -28,7 +28,7 @@ class Html extends React.Component {
 Html.propTypes = {
   lang: PropTypes.string,
   markup: PropTypes.string,
-  state: PropTypes.object,
+  state: PropTypes.string,
   dev: PropTypes.bool,
   context: PropTypes.object,
 };
