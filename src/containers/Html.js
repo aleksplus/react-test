@@ -18,6 +18,9 @@ class Html extends React.Component {
       <body>
         <div id="app" dangerouslySetInnerHTML={{__html: markup}} />
         <script dangerouslySetInnerHTML={{__html: state}} />
+        {
+          !dev && <script src="/public/vendor.min.js" />
+        }
         <script src={`/public/${dev ? 'main.js' : 'main.min.js'}`} />
       </body>
       </html>
