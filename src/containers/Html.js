@@ -15,7 +15,7 @@ class Html extends React.Component {
         <meta name="viewport" content="width=device-width, user-scalable=no" />
         <link rel="stylesheet" href={`/public/${dev ? 'main.css' : 'main.min.css'}`} />
       </head>
-      <body>
+      <body style={{paddingTop: '70px'}}>
         <div id="app" dangerouslySetInnerHTML={{__html: markup}} />
         <script dangerouslySetInnerHTML={{__html: state}} />
         {

@@ -1,0 +1,13 @@
+@import './../../../css/base.scss';
+
+.Header{
+  font-size: 16px;
+  color: $baseTextColor;
+  background-color: $baseBgColor;
+  height: 70px;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}

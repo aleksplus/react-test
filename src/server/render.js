@@ -44,6 +44,18 @@ export default function renderServer(req, res, next) {
   context.getActionContext().executeAction(navigateAction, {
     url: req.url
   }, (err) => {
-    renderApp(req, res, context, next)
+    if (err) {
+      next(err);
+      return;
+    }
+    // try {
+      renderApp(req, res, context, next)
+    // } catch(err) {
+    //   if (err.statusCode || err.status) {
+    //     renderApp(req, res, context, next);
+    //     return;
+    //   }
+    //   next(err);
+    // }
   });
 }

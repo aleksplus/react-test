@@ -13,6 +13,3 @@ server.use('/static', express.static(staticPath));
 server.use(render);
 server.listen(port);
 console.log('Application listening on port ' + port);
-
-
-export default server;

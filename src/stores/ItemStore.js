@@ -23,7 +23,7 @@ class ItemsStore extends BaseStore {
   }
 
   removeItem(value) {
-    this.items = Array.from(this.items).filter((item) => {
+    this.items = this.items.filter((item) => {
       if (!item || !item.value) return false;
       return value !== item.value
     });
